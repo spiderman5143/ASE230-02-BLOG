@@ -2,21 +2,21 @@
     // Define the array for blog posts (same array from index.php)
     $blogPosts = [
         [
-            "title" => "Introduction to PHP",
-            "content" => "PHP is a popular server-side scripting language designed for web development. In this post, we’ll explore the basics of PHP.",
-            "author" => "John Doe",
+            "title" => "The Amazing Spider-Man",
+            "content" => "The orgins and evolution of Spider-Man has stood the test of time through multiple different types of media.",
+            "author" => "Peter Parker",
             "date" => "2024-09-12"
         ],
         [
-            "title" => "Getting Started with HTML",
-            "content" => "HTML is the standard markup language for creating web pages. This post will guide you through its basic elements and structure.",
-            "author" => "Jane Smith",
+            "title" => "Getting Started with Coding",
+            "content" => "Coding can seem intimidating at first, but once you start you can build your skills as coding becomes easier.",
+            "author" => "Jane Doe",
             "date" => "2024-09-11"
         ],
         [
-            "title" => "Understanding CSS Flexbox",
-            "content" => "Flexbox is a powerful layout model in CSS that helps in creating responsive designs. Let's dive into how it works.",
-            "author" => "Alex Johnson",
+            "title" => "Pinball Machines",
+            "content" => "Pinball machines have seen a resurgence in popularity. This post brings awareness to how fun they are!",
+            "author" => "Jake Richman",
             "date" => "2024-09-10"
         ]
     ];
