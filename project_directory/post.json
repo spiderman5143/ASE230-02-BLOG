@@ -1,0 +1,27 @@
+[
+    {
+        "title": "The Amazing Spider-Man",
+        "content": "The origins and evolution of Spider-Man have stood the test of time through multiple different types of media.",
+        "author": "Peter Parker",
+        "date": "2024-09-12"
+    },
+    {
+        "title": "Getting Started with Coding",
+        "content": "Coding can seem intimidating at first, but once you start you can build your skills as coding becomes easier.",
+        "author": "Jane Doe",
+        "date": "2024-09-11"
+    },
+    {
+        "title": "Pinball Machines",
+        "content": "Pinball machines have seen a resurgence in popularity. This post brings awareness to how fun they are!",
+        "author": "Jake Richman",
+        "date": "2024-09-10"
+    },
+    {
+        "title": "Test",
+        "content": "This is a test to see if the code worked so I can count as many post as I want! (side note: tested and worked!)",
+        "author": "Test Richman",
+        "date": "2024-09-22"
+    }
+
+]

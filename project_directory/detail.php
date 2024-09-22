@@ -1,40 +1,77 @@
 <?php
-    // Define the array for blog posts (same array from index.php)
-    $blogPosts = [
-        [
-            "title" => "The Amazing Spider-Man",
-            "content" => "The orgins and evolution of Spider-Man has stood the test of time through multiple different types of media.",
-            "author" => "Peter Parker",
-            "date" => "2024-09-12"
-        ],
-        [
-            "title" => "Getting Started with Coding",
-            "content" => "Coding can seem intimidating at first, but once you start you can build your skills as coding becomes easier.",
-            "author" => "Jane Doe",
-            "date" => "2024-09-11"
-        ],
-        [
-            "title" => "Pinball Machines",
-            "content" => "Pinball machines have seen a resurgence in popularity. This post brings awareness to how fun they are!",
-            "author" => "Jake Richman",
-            "date" => "2024-09-10"
-        ]
-    ];
+$json_data = file_get_contents("post.json");
+$blogPosts = json_decode($json_data, true);
 
-    // Function to get the blog post by its ID
-    function getBlogPost($id, $posts) {
-        if (isset($posts[$id])) {
-            return $posts[$id];
-        } else {
-            return null;
+// Function to get the blog post by its ID
+function getBlogPost($id, $posts) {
+    return isset($posts[$id]) ? $posts[$id] : null;
+}
+
+// Get the post_id from the URL
+$postId = isset($_GET['post_id']) ? (int)$_GET['post_id'] : 0;
+
+// Get the blog post by ID
+$post = getBlogPost($postId, $blogPosts);
+
+function updateVisitorCount($post_id, $blogPosts) {
+    $file = 'visitors.csv';
+
+    // Check if the file exists; if not, create it with initial data
+    if (!file_exists($file)) {
+        $fp = fopen($file, 'w');
+        for ($i = 0; $i < count($blogPosts); $i++) {
+            fputcsv($fp, [$i, 0]); // Initialize visitor counts to 0
+        }
+        fclose($fp);
+    }
+
+    // Read existing data
+    $rows = [];
+    if (file_exists($file)) {
+        // Read the CSV file and convert it to an associative array
+        foreach (file($file) as $line) {
+            list($key, $value) = str_getcsv($line);
+            $rows[$key] = (int)$value; // Convert value to integer
         }
     }
 
-    // Get the post_id from the URL
-    $postId = isset($_GET['post_id']) ? (int)$_GET['post_id'] : 0;
 
-    // Get the blog post by ID
-    $post = getBlogPost($postId, $blogPosts);
+    // Update the visitor count
+    if (isset($rows[$post_id])) {
+        $rows[$post_id]++; // Increment the count
+    } else {
+        $rows[$post_id] = 1; // Initialize to 1 if not found
+    }
+
+    $fp = fopen($file, 'w');
+    foreach ($rows as $key => $value) {
+        fputcsv($fp, [$key, $value]);
+    }
+    fclose($fp);
+
+}
+
+function getVisitorCount($post_id) {
+    $file = 'visitors.csv';
+    if (!file_exists($file)) {
+        return 0; // If the file doesn't exist, return 0
+    }
+
+    $rows = array_map('str_getcsv', file($file));
+    foreach ($rows as $row) {
+        if ($row[0] == $post_id) {
+            return (int)$row[1]; // Return the visitor count
+        }
+    }
+    return 0; // Default to 0 if post_id not found
+}
+
+// Call the function when a post is viewed
+if ($post) {
+    updateVisitorCount($postId, $blogPosts);
+}
+
+$visitor_count = getVisitorCount($postId);
 ?>
 
 <!DOCTYPE html>
@@ -46,15 +83,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
-
 <div class="container">
-<?php if ($post): ?>
+    <?php if ($post): ?>
         <div class="card mt-5">
             <div class="card-body">
                 <h2 class="card-title"><?= $post["title"]; ?></h2>
                 <p class="card-text"><strong>Author:</strong> <?= $post["author"]; ?></p>
                 <p class="card-text"><strong>Date:</strong> <?= $post["date"]; ?></p>
                 <p class="card-text"><?= $post["content"]; ?></p>
+                <p>Visitor Count: <?= $visitor_count; ?></p>
                 <a href="index.php" class="btn btn-primary">Back to blog posts</a>
             </div>
         </div>
@@ -66,4 +103,3 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

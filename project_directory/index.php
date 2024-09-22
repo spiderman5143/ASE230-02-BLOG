@@ -1,25 +1,6 @@
 <?php
-    // Define the array for blog posts
-    $blogPosts = [
-        [
-            "title" => "The Amazing Spider-Man",
-            "content" => "The orgins and evolution of Spider-Man has stood the test of time through multiple different types of media.",
-            "author" => "Peter Parker",
-            "date" => "2024-09-12"
-        ],
-        [
-            "title" => "Getting Started with Coding",
-            "content" => "Coding can seem intimidating at first, but once you start you can build your skills as coding becomes easier.",
-            "author" => "Jane Doe",
-            "date" => "2024-09-11"
-        ],
-        [
-            "title" => "Pinball Machines",
-            "content" => "Pinball machines have seen a resurgence in popularity. This post brings awareness to how fun they are!",
-            "author" => "Jake Richman",
-            "date" => "2024-09-10"
-        ]
-    ];
+    $json_data = file_get_contents("post.json");
+    $blogPosts = json_decode($json_data, true);
 ?>
 
 <!DOCTYPE html>
